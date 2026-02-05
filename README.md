@@ -18,6 +18,7 @@ The game stays true to Feist's world and narrative while giving players agency t
 ## Documentation
 
 - [Features](features.md) - Complete feature details and game mechanics
+- [Todo](todo.md) - Development tasks and roadmap
 
 ## License
 
