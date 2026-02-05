@@ -2,26 +2,6 @@
 
 Complete feature documentation for The-Magician text adventure RPG.
 
-## Play Now
-
-```bash
-# Clone the repository
-git clone https://github.com/NORS3AI/The-Magician.git
-cd The-Magician
-
-# Set up virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the game
-python main.py
-```
-
----
-
 ## Character Paths
 
 Players choose one of two protagonists at the start of the game. Each path offers a unique gameplay experience while following the events of the Riftwar Saga.
