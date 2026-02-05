@@ -22,5 +22,8 @@ pydantic>=2.5.0
 pytest>=7.4.0
 pytest-cov>=4.1.0
 
+# Web Interface
+Flask>=3.0.0
+
 # Development
 python-dotenv>=1.0.0
