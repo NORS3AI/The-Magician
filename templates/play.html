@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Playing as {{ character_data.get('name', character) }} - The Magician{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div>
+            <h2 style="margin-bottom: 5px; border: none; padding: 0;">
+                {{ character_data.get('name', character|title) }}
+                <span style="color: #a0a0a0; font-size: 0.6em;">
+                    ({{ 'Warrior' if character == 'tomas' else 'Mage' }})
+                </span>
+            </h2>
+            <p style="color: #a0a0a0;">Player: {{ username }}</p>
+        </div>
+        <div style="text-align: right;">
+            {% set stats = character_data.get('base_stats', {}) %}
+            <span style="color: #ff6b6b;">HP: {{ stats.get('constitution', 10) * 10 }}</span> |
+            <span style="color: #54a0ff;">MP: {{ stats.get('willpower', 10) * (10 if character == 'pug' else 2) }}</span>
+        </div>
+    </div>
+
+    <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 5px; min-height: 150px; margin-bottom: 20px;">
+        {% if message %}
+        <p style="color: #4ecdc4;">> {{ message }}</p>
+        {% else %}
+        {% if character == 'tomas' %}
+        <p>You stand in the courtyard of Castle Crydee. The morning sun casts long shadows across the stone walls. The sound of wooden practice swords clashing echoes from the training grounds nearby.</p>
+        <br>
+        <p style="color: #a0a0a0;">Type a command to begin your adventure...</p>
+        {% else %}
+        <p>You are in Kulgan's study, surrounded by towering shelves of ancient books and mysterious scrolls. Dust motes dance in the light streaming through the window. Your master, the court magician, has stepped out briefly.</p>
+        <br>
+        <p style="color: #a0a0a0;">Type a command to begin your adventure...</p>
+        {% endif %}
+        {% endif %}
+    </div>
+
+    <form method="POST" style="display: flex; gap: 10px;">
+        <input type="text" name="command" placeholder="Enter command (try: look, inventory, stats, help)"
+               style="flex: 1;" autofocus autocomplete="off">
+        <button type="submit" class="btn">Enter</button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Quick Commands</h2>
+    <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+        <form method="POST" style="display: inline;"><input type="hidden" name="command" value="look"><button type="submit" class="btn btn-secondary" style="padding: 8px 15px;">Look</button></form>
+        <form method="POST" style="display: inline;"><input type="hidden" name="command" value="inventory"><button type="submit" class="btn btn-secondary" style="padding: 8px 15px;">Inventory</button></form>
+        <form method="POST" style="display: inline;"><input type="hidden" name="command" value="stats"><button type="submit" class="btn btn-secondary" style="padding: 8px 15px;">Stats</button></form>
+        <form method="POST" style="display: inline;"><input type="hidden" name="command" value="help"><button type="submit" class="btn btn-secondary" style="padding: 8px 15px;">Help</button></form>
+    </div>
+</div>
+
+<div class="menu-links">
+    <a href="{{ url_for('character_select') }}">Change Character</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+{% endblock %}

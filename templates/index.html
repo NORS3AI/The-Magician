@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}The Magician - Main Menu{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h2>Welcome, Traveler</h2>
+    <p style="margin-bottom: 30px;">
+        Two boys from Crydee will shape the fate of two worlds.<br>
+        Choose whose journey you will follow.
+    </p>
+
+    <div>
+        <a href="{{ url_for('login') }}" class="btn">Login</a>
+        <a href="{{ url_for('register') }}" class="btn btn-secondary">Register</a>
+    </div>
+</div>
+
+<div class="card">
+    <h2>About the Game</h2>
+    <p>
+        Follow the epic adventures of <strong>Tomas</strong> and <strong>Pug</strong> from
+        Raymond E. Feist's beloved <em>Magician</em> series. Choose your path—the Warrior
+        or the Mage—and experience the Riftwar Saga through your character's eyes.
+    </p>
+    <br>
+    <p>
+        <strong>Features:</strong> RPG stats, combat, magic, inventory, and survival mechanics.
+        Your choices shape your journey while staying true to Feist's world.
+    </p>
+</div>
+{% endblock %}

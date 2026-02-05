@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Choose Your Path - The Magician{% endblock %}
+
+{% block content %}
+<div class="card" style="text-align: center;">
+    <h2>Welcome, {{ username }}</h2>
+    <p>Two paths lie before you. Choose wisely.</p>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+    <div class="card">
+        <h2 style="color: #ff9f43;">Tomas - The Warrior</h2>
+        <p><strong>Path of Martial Prowess</strong></p>
+        <br>
+        <p>
+            Follow the path of strength and ancient power. Face the Tsurani invasion,
+            discover the Dragon's cave, and unlock the secrets of the Valheru armor.
+        </p>
+        <br>
+        <p><em>Stats Focus:</em> Strength, Constitution, Agility</p>
+        <p><em>Abilities:</em> Melee combat, defensive stances, weapon mastery</p>
+        <br>
+        <form method="POST" style="text-align: center;">
+            <input type="hidden" name="character" value="tomas">
+            <button type="submit" class="btn" style="background: #ff9f43;">Choose Tomas</button>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2 style="color: #54a0ff;">Pug - The Mage</h2>
+        <p><strong>Path of Magic and Knowledge</strong></p>
+        <br>
+        <p>
+            Follow the path of arcane study. From apprentice to master, across two worlds,
+            become the greatest magician of the age.
+        </p>
+        <br>
+        <p><em>Stats Focus:</em> Intelligence, Willpower, Charisma</p>
+        <p><em>Abilities:</em> Spellcasting, magical shields, greater magic</p>
+        <br>
+        <form method="POST" style="text-align: center;">
+            <input type="hidden" name="character" value="pug">
+            <button type="submit" class="btn" style="background: #54a0ff;">Choose Pug</button>
+        </form>
+    </div>
+</div>
+
+<div class="menu-links" style="margin-top: 20px;">
+    <a href="{{ url_for('logout') }}">Logout</a>
+</div>
+{% endblock %}

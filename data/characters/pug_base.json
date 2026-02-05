@@ -1,0 +1,38 @@
+{
+  "name": "Pug",
+  "path": "mage",
+  "description": "A boy from Crydee with latent magical talent, destined to become the greatest magician of the age.",
+  "starting_location": "crydee_castle",
+  "base_stats": {
+    "strength": 9,
+    "constitution": 10,
+    "agility": 11,
+    "intelligence": 15,
+    "willpower": 14,
+    "charisma": 11
+  },
+  "derived_stats": {
+    "health_per_con": 8,
+    "stamina_per_con": 4,
+    "mana_per_will": 10,
+    "carry_per_str": 8
+  },
+  "starting_equipment": {
+    "weapon": "wooden_staff",
+    "armor": "apprentice_robes"
+  },
+  "starting_inventory": [
+    {"item": "bread_loaf", "quantity": 2},
+    {"item": "waterskin", "quantity": 1},
+    {"item": "candle", "quantity": 3},
+    {"item": "copper_coins", "quantity": 5}
+  ],
+  "abilities": {
+    "unlocked": ["basic_attack", "minor_light"],
+    "locked": ["fire_bolt", "shield", "detect_magic", "telekinesis"]
+  },
+  "spells": {
+    "known": ["minor_light"],
+    "locked": ["fire_bolt", "magic_shield", "detect_magic"]
+  }
+}
