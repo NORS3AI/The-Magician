@@ -1,0 +1,30 @@
+# The-Magician Game Configuration
+
+debug: true
+
+game:
+  title: "The Magician"
+  version: "0.1.0"
+  subtitle: "A Text Adventure RPG"
+
+auth:
+  token_expiry_hours: 24
+  password_min_length: 8
+  bcrypt_rounds: 12
+  require_email_verification: false
+
+display:
+  text_speed: normal  # slow, normal, fast, instant
+  use_colors: true
+  clear_screen: true
+
+gameplay:
+  difficulty: normal  # easy, normal, hard
+  autosave: true
+  autosave_interval: 300  # seconds
+
+survival:
+  enabled: true
+  hunger_decay_rate: 1.0
+  thirst_decay_rate: 1.0
+  fatigue_decay_rate: 0.5

@@ -1,0 +1,33 @@
+{
+  "name": "Tomas",
+  "path": "warrior",
+  "description": "A boy from Crydee destined for greatness through martial prowess and ancient power.",
+  "starting_location": "crydee_castle",
+  "base_stats": {
+    "strength": 14,
+    "constitution": 13,
+    "agility": 12,
+    "intelligence": 10,
+    "willpower": 11,
+    "charisma": 12
+  },
+  "derived_stats": {
+    "health_per_con": 10,
+    "stamina_per_con": 5,
+    "mana_per_will": 2,
+    "carry_per_str": 10
+  },
+  "starting_equipment": {
+    "weapon": "wooden_practice_sword",
+    "armor": "leather_jerkin"
+  },
+  "starting_inventory": [
+    {"item": "bread_loaf", "quantity": 2},
+    {"item": "waterskin", "quantity": 1},
+    {"item": "copper_coins", "quantity": 10}
+  ],
+  "abilities": {
+    "unlocked": ["basic_attack", "block"],
+    "locked": ["heavy_strike", "parry", "battle_rage"]
+  }
+}
