@@ -4,13 +4,29 @@ The-Magician: Web Interface
 Flask server for playing the game in a browser.
 """
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, flash
 import secrets
 import json
+import logging
 from pathlib import Path
+
+from src.auth import AccountManager
+from src.config.settings import Settings
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)
+
+# Load configuration
+config = Settings()
+
+# Initialize account manager
+account_manager = AccountManager()
 
 # Load character data
 DATA_DIR = Path(__file__).parent / "data"
@@ -39,10 +55,16 @@ def login():
         password = request.form.get("password", "").strip()
 
         if username and password:
-            # Demo mode - accept any credentials
-            session["username"] = username
-            session["logged_in"] = True
-            return redirect(url_for("character_select"))
+            # Use authentication system
+            success, message, session_token = account_manager.login(username, password)
+
+            if success:
+                session["username"] = username
+                session["session_token"] = session_token
+                session["logged_in"] = True
+                return redirect(url_for("character_select"))
+            else:
+                return render_template("login.html", error=message)
         else:
             return render_template("login.html", error="Please enter username and password")
 
@@ -57,21 +79,19 @@ def register():
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "").strip()
 
-        errors = []
-        if len(username) < 3:
-            errors.append("Username must be at least 3 characters")
-        if "@" not in email:
-            errors.append("Please enter a valid email")
-        if len(password) < 8:
-            errors.append("Password must be at least 8 characters")
+        # Use authentication system
+        success, message, user_data = account_manager.register(username, email, password)
 
-        if errors:
-            return render_template("register.html", errors=errors)
-
-        # Demo mode - accept registration
-        session["username"] = username
-        session["logged_in"] = True
-        return redirect(url_for("character_select"))
+        if success:
+            # Auto-login after registration
+            success_login, _, session_token = account_manager.login(username, password)
+            if success_login:
+                session["username"] = username
+                session["session_token"] = session_token
+                session["logged_in"] = True
+                return redirect(url_for("character_select"))
+        else:
+            return render_template("register.html", errors=[message])
 
     return render_template("register.html")
 
@@ -136,9 +156,69 @@ def play():
     )
 
 
+@app.route("/forgot-password", methods=["GET", "POST"])
+def forgot_password():
+    """Request password reset."""
+    if request.method == "POST":
+        email = request.form.get("email", "").strip()
+
+        if email:
+            # Generate reset URL (will be used in email)
+            reset_url = url_for("reset_password", _external=True)
+            success, message = account_manager.request_password_reset(email, reset_url)
+
+            return render_template("forgot_password.html", success=message)
+        else:
+            return render_template("forgot_password.html", error="Please enter your email")
+
+    return render_template("forgot_password.html")
+
+
+@app.route("/reset-password", methods=["GET", "POST"])
+def reset_password():
+    """Reset password with token."""
+    if request.method == "POST":
+        token = request.form.get("token", "").strip()
+        new_password = request.form.get("new_password", "").strip()
+        confirm_password = request.form.get("confirm_password", "").strip()
+
+        if new_password != confirm_password:
+            return render_template("reset_password.html", error="Passwords do not match", token=token)
+
+        success, message = account_manager.reset_password(token, new_password)
+
+        if success:
+            return render_template("reset_password.html", success=message)
+        else:
+            return render_template("reset_password.html", error=message, token=token)
+
+    # GET request - show form with token from URL
+    token = request.args.get("token", "")
+    return render_template("reset_password.html", token=token)
+
+
+@app.route("/forgot-username", methods=["GET", "POST"])
+def forgot_username():
+    """Request username reminder."""
+    if request.method == "POST":
+        email = request.form.get("email", "").strip()
+
+        if email:
+            success, message = account_manager.request_username_reminder(email)
+            return render_template("forgot_username.html", success=message)
+        else:
+            return render_template("forgot_username.html", error="Please enter your email")
+
+    return render_template("forgot_username.html")
+
+
 @app.route("/logout")
 def logout():
     """Logout and clear session."""
+    # Invalidate session token if exists
+    if "username" in session and "session_token" in session:
+        account_manager.logout(session["username"], session["session_token"])
+
     session.clear()
     return redirect(url_for("index"))
 
