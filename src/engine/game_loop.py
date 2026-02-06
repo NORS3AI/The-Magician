@@ -11,39 +11,9 @@ from .commands import CommandRegistry, CommandDefinition
 from ..config.settings import Settings
 from ..data import DataLoader
 from ..auth import AccountManager
+from ..character import PlayerCharacter, CoreAttributes
 
 logger = logging.getLogger(__name__)
-
-
-class Player:
-    """Player character state."""
-
-    def __init__(self, username: str, character_name: str, character_data: Dict):
-        """
-        Initialize player.
-
-        Args:
-            username: Account username
-            character_name: Character name (tomas/pug)
-            character_data: Character stats and info
-        """
-        self.username = username
-        self.character_name = character_name
-        self.data = character_data
-        self.level = character_data.get('level', 1)
-        self.stats = character_data.get('base_stats', {})
-        self.inventory = character_data.get('starting_inventory', [])
-        self.location = "crydee"  # Starting location
-        self.health = self._calculate_max_health()
-        self.mana = self._calculate_max_mana()
-
-    def _calculate_max_health(self) -> int:
-        """Calculate max health from constitution."""
-        return 50 + (self.stats.get('constitution', 10) * 5)
-
-    def _calculate_max_mana(self) -> int:
-        """Calculate max mana from willpower."""
-        return 30 + (self.stats.get('willpower', 10) * 3)
 
 
 class GameLoop:
@@ -68,7 +38,7 @@ class GameLoop:
         self.account_manager = AccountManager()
 
         self.running = False
-        self.player: Optional[Player] = None
+        self.player: Optional[PlayerCharacter] = None
         self.current_user: Optional[str] = None
 
     def run(self):
@@ -255,7 +225,20 @@ class GameLoop:
             self.output.print_error(f"Failed to load character data for {character_name}")
             return
 
-        self.player = Player(self.current_user, character_name, character_data)
+        # Create character with attributes from data
+        attributes = CoreAttributes.from_dict(character_data.get('base_stats', {}))
+        self.player = PlayerCharacter(
+            username=self.current_user,
+            character_name=character_name,
+            path=character_name,
+            attributes=attributes,
+            level=character_data.get('level', 1),
+            xp=0
+        )
+
+        # Load starting inventory
+        starting_inventory = character_data.get('starting_inventory', [])
+        self.player.inventory = starting_inventory
 
         self.output.clear()
         self.output.print_success(f"You have chosen the path of {character_name.upper()}")
@@ -397,22 +380,55 @@ class GameLoop:
             self.state_machine.go_back()
             return
 
+        # Get XP progress
+        xp_info = self.player.get_xp_progress()
+
         self.output.print_section(f"{self.player.character_name.title()} - Level {self.player.level}")
 
+        # Core attributes
         stats_display = {
-            "Strength": self.player.stats.get('strength', 0),
-            "Constitution": self.player.stats.get('constitution', 0),
-            "Agility": self.player.stats.get('agility', 0),
-            "Intelligence": self.player.stats.get('intelligence', 0),
-            "Willpower": self.player.stats.get('willpower', 0),
-            "Charisma": self.player.stats.get('charisma', 0),
-            "",
-            "Health": f"{self.player.health}/{self.player.health}",
-            "Mana": f"{self.player.mana}/{self.player.mana}",
+            "Strength": self.player.attributes.strength,
+            "Constitution": self.player.attributes.constitution,
+            "Agility": self.player.attributes.agility,
+            "Intelligence": self.player.attributes.intelligence,
+            "Willpower": self.player.attributes.willpower,
+            "Charisma": self.player.attributes.charisma,
         }
 
         self.output.print_stats(stats_display)
         print()
+
+        # Derived stats
+        derived_display = {
+            "Health": f"{self.player.derived_stats.current_health}/{self.player.derived_stats.max_health}",
+            "Mana": f"{self.player.derived_stats.current_mana}/{self.player.derived_stats.max_mana}",
+            "Stamina": f"{self.player.derived_stats.current_stamina}/{self.player.derived_stats.max_stamina}",
+            "Carry Capacity": f"{self.player.derived_stats.carry_capacity} lbs",
+            "Initiative": self.player.derived_stats.initiative,
+        }
+
+        self.output.print_stats(derived_display)
+        print()
+
+        # Experience
+        xp_display = {
+            "Total XP": xp_info['total_xp'],
+            "Progress to Next Level": f"{xp_info['progress_xp']}/{xp_info['needed_xp']} ({xp_info['percentage']:.1f}%)",
+        }
+
+        if self.player.unspent_stat_points > 0:
+            xp_display["Unspent Stat Points"] = self.player.unspent_stat_points
+
+        self.output.print_stats(xp_display)
+        print()
+
+        # Abilities
+        if self.player.abilities:
+            self.output.print_colored("Abilities:", Color.YELLOW, Style.BOLD)
+            for ability in self.player.abilities:
+                print(f"  • {ability}")
+            print()
+
         self.output.pause()
         self.state_machine.go_back()
 

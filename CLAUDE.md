@@ -43,13 +43,23 @@ Project context and instructions for Claude Code sessions.
   - [x] Data validator with schema validation
   - [x] Updated game loop with full integration
   - [x] Help system with detailed command info
+- [x] **Phase 3: Character System (COMPLETE)**
+  - [x] Core attributes (Str, Con, Agi, Int, Will, Cha)
+  - [x] Derived stats (HP, MP, Stamina, Carry, Initiative)
+  - [x] Stat calculator with formulas
+  - [x] Experience points system
+  - [x] Level up mechanics (50 levels, scaling XP)
+  - [x] Stat point allocation (3 per level)
+  - [x] Ability unlocks per level (Tomas & Pug paths)
+  - [x] PlayerCharacter class with full state management
+  - [x] Damage/defense/spell power calculations
 - [x] Deployment configuration (Render, Railway, Fly.io)
 
 ### In Progress
 - None
 
 ### Not Started
-- Phases 3-10 (see todo.md for full breakdown)
+- Phases 4-10 (see todo.md for full breakdown)
 
 ## Key Files
 
@@ -69,6 +79,10 @@ src/engine/                 - Game engine (Phase 2)
   ├── output.py             - Text formatting with colors
   ├── input_handler.py      - Command parsing
   └── commands.py           - Command registry (25+ commands)
+src/character/              - Character system (Phase 3)
+  ├── player.py             - PlayerCharacter class
+  ├── stats.py              - Attributes and stat calculations
+  └── progression.py        - XP and leveling system
 src/data/                   - Data management
   ├── loader.py             - JSON/YAML loading with caching
   └── validator.py          - Schema validation
@@ -103,10 +117,11 @@ Currently on: `claude/update-play-link-gnIsm`
 ## Next Steps
 
 1. **For iPad access:** Deploy to Render.com (see DEPLOYMENT.md)
-2. **Phase 3:** Implement character progression system (XP, leveling, abilities)
-3. **Phase 4:** Implement combat system (turn-based battles)
+2. **Phase 4:** Implement combat system (turn-based battles)
+3. **Phase 5:** Implement magic system (spells for Pug path)
 4. **Phase 6:** Implement inventory system (equipment, items)
-5. **Phase 8:** Start story content for Chapter 1
+5. **Phase 7:** Implement survival system (hunger, thirst, fatigue)
+6. **Phase 8:** Start story content for Chapter 1
 
 ## User Preferences
 
