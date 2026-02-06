@@ -13,6 +13,7 @@ from ..data import DataLoader
 from ..auth import AccountManager
 from ..character import PlayerCharacter, CoreAttributes
 from ..combat import Battle, BattleResult, create_goblin, create_orc
+from ..magic import initialize_spells
 
 logger = logging.getLogger(__name__)
 
@@ -42,6 +43,9 @@ class GameLoop:
         self.player: Optional[PlayerCharacter] = None
         self.current_user: Optional[str] = None
         self.current_battle: Optional[Battle] = None
+
+        # Initialize spell registry
+        initialize_spells()
 
     def run(self):
         """Start the main game loop."""

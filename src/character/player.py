@@ -5,6 +5,7 @@ from datetime import datetime
 
 from .stats import CoreAttributes, DerivedStats, StatCalculator
 from .progression import ExperienceSystem, AbilitySystem, LevelUpManager
+from ..magic import SpellBook, get_spell_registry
 
 
 class PlayerCharacter:
@@ -45,6 +46,10 @@ class PlayerCharacter:
         # Progression
         self.unspent_stat_points = 0
         self.abilities = AbilitySystem.get_abilities_for_level(self.path, self.level)
+
+        # Magic system
+        self.spellbook = SpellBook()
+        self._learn_starting_spells()
 
         # Inventory
         self.inventory: List[Dict] = []
@@ -95,6 +100,23 @@ class PlayerCharacter:
         player.unspent_stat_points = data.get('unspent_stat_points', 0)
         player.abilities = data.get('abilities', player.abilities)
 
+        # Load spells
+        if 'known_spells' in data:
+            registry = get_spell_registry()
+            for spell_name in data['known_spells']:
+                spell = registry.get(spell_name)
+                if spell:
+                    player.spellbook.learn_spell(spell)
+
+        if 'equipped_spells' in data:
+            registry = get_spell_registry()
+            # Clear auto-equipped spells first
+            player.spellbook.equipped_spells.clear()
+            for spell_name in data['equipped_spells']:
+                spell = registry.get(spell_name)
+                if spell:
+                    player.spellbook.equip_spell(spell)
+
         # Load inventory
         player.inventory = data.get('inventory', [])
         player.equipped = data.get('equipped', player.equipped)
@@ -126,6 +148,8 @@ class PlayerCharacter:
             'derived_stats': self.derived_stats.to_dict(),
             'unspent_stat_points': self.unspent_stat_points,
             'abilities': self.abilities,
+            'known_spells': [spell.name for spell in self.spellbook.known_spells],
+            'equipped_spells': [spell.name for spell in self.spellbook.equipped_spells],
             'inventory': self.inventory,
             'equipped': self.equipped,
             'location': self.location,
@@ -185,6 +209,11 @@ class PlayerCharacter:
         self.derived_stats.current_health = self.derived_stats.max_health
         self.derived_stats.current_mana = self.derived_stats.max_mana
         self.derived_stats.current_stamina = self.derived_stats.max_stamina
+
+        # Learn new spells if available
+        new_spells = self.learn_new_spells_for_level()
+        if new_spells:
+            level_up_info['new_spells'] = new_spells
 
         return level_up_info
 
@@ -374,6 +403,94 @@ class PlayerCharacter:
             'spell_power': StatCalculator.calculate_spell_power(self.attributes.intelligence, self.attributes.willpower),
             'initiative': self.derived_stats.initiative
         }
+
+    def _learn_starting_spells(self):
+        """Learn starting spells based on path."""
+        if self.path != "pug":
+            return  # Only Pug starts with spells
+
+        registry = get_spell_registry()
+
+        # Pug starts with basic spells
+        starting_spells = ["Minor Firebolt", "Minor Heal", "Light"]
+
+        for spell_name in starting_spells:
+            spell = registry.get(spell_name)
+            if spell:
+                self.spellbook.learn_spell(spell)
+
+    def learn_new_spells_for_level(self):
+        """Check and learn new spells available at current level."""
+        if self.path != "pug":
+            return []
+
+        registry = get_spell_registry()
+        learnable = registry.get_learnable(
+            self.level,
+            self.attributes.intelligence,
+            self.attributes.willpower
+        )
+
+        # Filter out already known spells
+        new_spells = []
+        for spell in learnable:
+            if spell not in self.spellbook.known_spells:
+                # Auto-learn spells that meet requirements
+                if self.spellbook.learn_spell(spell):
+                    new_spells.append(spell.name)
+
+        return new_spells
+
+    def can_cast_spell(self, spell_name: str) -> tuple[bool, str]:
+        """
+        Check if can cast a spell.
+
+        Args:
+            spell_name: Name of the spell
+
+        Returns:
+            Tuple of (can_cast, reason)
+        """
+        spell = self.spellbook.get_spell_by_name(spell_name)
+
+        if not spell:
+            return False, "You don't know that spell"
+
+        mana_cost = spell.get_mana_cost(self.level)
+
+        if self.derived_stats.current_mana < mana_cost:
+            return False, f"Not enough mana (need {mana_cost}, have {self.derived_stats.current_mana})"
+
+        return True, ""
+
+    def cast_spell(self, spell_name: str, target=None, **kwargs) -> Dict[str, Any]:
+        """
+        Cast a spell.
+
+        Args:
+            spell_name: Name of the spell
+            target: Target of the spell
+            **kwargs: Additional spell parameters
+
+        Returns:
+            Dict with cast results
+        """
+        can_cast, reason = self.can_cast_spell(spell_name)
+
+        if not can_cast:
+            return {'success': False, 'message': reason}
+
+        spell = self.spellbook.get_spell_by_name(spell_name)
+        mana_cost = spell.get_mana_cost(self.level)
+
+        # Cast the spell
+        result = spell.cast(self, target, **kwargs)
+
+        # Deduct mana if successful
+        if result.get('success'):
+            self.use_mana(mana_cost)
+
+        return result
 
     def update_last_played(self):
         """Update last played timestamp."""

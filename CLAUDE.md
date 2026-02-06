@@ -69,13 +69,26 @@ Project context and instructions for Claude Code sessions.
   - [x] XP and gold rewards
   - [x] Integration with game loop
   - [x] Enemy data files (common enemies and bosses)
+- [x] **Phase 5: Magic System (COMPLETE)**
+  - [x] Spell base framework with categories and scaling
+  - [x] Mana cost system with level-based efficiency
+  - [x] Spell learning and progression system
+  - [x] SpellBook for managing known and equipped spells
+  - [x] Offensive spells (9 spells: firebolt, fireball, ice shard, lightning, arcane missile, etc.)
+  - [x] Defensive spells (13 spells: healing, shields, buffs, cleanse, dispel, etc.)
+  - [x] Utility spells (12 spells: light, detection, telekinesis, invisibility, etc.)
+  - [x] Greater magic (11 story-locked spells: rift magic, time stop, disintegrate, etc.)
+  - [x] Element types (fire, ice, lightning, arcane, dark, light, nature)
+  - [x] Target types (self, single enemy/ally, all enemies/allies, area)
+  - [x] Integration with character system and leveling
+  - [x] Spell data files
 - [x] Deployment configuration (Render, Railway, Fly.io)
 
 ### In Progress
 - None
 
 ### Not Started
-- Phases 5-10 (see todo.md for full breakdown)
+- Phases 6-10 (see todo.md for full breakdown)
 
 ## Key Files
 
@@ -105,6 +118,12 @@ src/combat/                 - Combat system (Phase 4)
   ├── actions.py            - Combat actions (warrior/mage)
   ├── enemy.py              - Enemy classes and AI
   └── battle.py             - Turn-based battle manager
+src/magic/                  - Magic system (Phase 5)
+  ├── spells.py             - Spell base class and spellbook
+  ├── offensive.py          - Offensive spells
+  ├── defensive.py          - Defensive and healing spells
+  ├── utility.py            - Utility spells
+  └── greater.py            - Story-locked greater magic
 src/data/                   - Data management
   ├── loader.py             - JSON/YAML loading with caching
   └── validator.py          - Schema validation
@@ -112,6 +131,7 @@ src/config/settings.py      - Config loader
 src/utils/validation.py     - Input validation
 data/characters/            - Tomas and Pug base stats
 data/enemies/               - Enemy templates (common and bosses)
+data/spells/                - Spell definitions and data
 data/users/                 - User account storage
 templates/                  - HTML templates for web UI
 tests/test_auth.py          - Authentication unit tests
@@ -140,11 +160,10 @@ Currently on: `claude/update-play-link-gnIsm`
 ## Next Steps
 
 1. **For iPad access:** Deploy to Render.com (see DEPLOYMENT.md)
-2. **Phase 5:** Implement magic system (advanced spells for Pug path)
-3. **Phase 6:** Implement inventory system (equipment, items, weapons)
-4. **Phase 7:** Implement survival system (hunger, thirst, fatigue)
-5. **Phase 8:** Start story content for Chapter 1
-6. **Future phases:** See todo.md for Phases 8-10
+2. **Phase 6:** Implement inventory system (equipment, items, weapons)
+3. **Phase 7:** Implement survival system (hunger, thirst, fatigue)
+4. **Phase 8:** Start story content for Chapter 1
+5. **Future phases:** See todo.md for Phases 8-10
 
 ## User Preferences
 

@@ -1,0 +1,341 @@
+{
+  "offensive": {
+    "minor_firebolt": {
+      "name": "Minor Firebolt",
+      "level": 1,
+      "mana_cost": 10,
+      "element": "fire",
+      "description": "Launch a small bolt of fire at an enemy"
+    },
+    "fireball": {
+      "name": "Fireball",
+      "level": 3,
+      "mana_cost": 20,
+      "element": "fire",
+      "description": "Hurl an explosive ball of flame at an enemy"
+    },
+    "greater_fireball": {
+      "name": "Greater Fireball",
+      "level": 10,
+      "mana_cost": 35,
+      "element": "fire",
+      "description": "Unleash a devastating explosion of fire"
+    },
+    "ice_shard": {
+      "name": "Ice Shard",
+      "level": 2,
+      "mana_cost": 15,
+      "element": "ice",
+      "description": "Fire a shard of ice that may slow the target"
+    },
+    "lightning_bolt": {
+      "name": "Lightning Bolt",
+      "level": 5,
+      "mana_cost": 25,
+      "element": "lightning",
+      "description": "Strike an enemy with a bolt of lightning"
+    },
+    "chain_lightning": {
+      "name": "Chain Lightning",
+      "level": 12,
+      "mana_cost": 40,
+      "element": "lightning",
+      "description": "Lightning that arcs between multiple enemies"
+    },
+    "arcane_missile": {
+      "name": "Arcane Missile",
+      "level": 4,
+      "mana_cost": 18,
+      "element": "arcane",
+      "description": "Fire magical missiles that never miss"
+    },
+    "dark_bolt": {
+      "name": "Dark Bolt",
+      "level": 7,
+      "mana_cost": 22,
+      "element": "dark",
+      "description": "Dark energy that damages and weakens enemies"
+    },
+    "meteor": {
+      "name": "Meteor",
+      "level": 18,
+      "mana_cost": 60,
+      "element": "fire",
+      "description": "Call down a meteor to devastate all enemies"
+    }
+  },
+  "defensive": {
+    "minor_heal": {
+      "name": "Minor Heal",
+      "level": 1,
+      "mana_cost": 12,
+      "element": "light",
+      "description": "Restore a small amount of health"
+    },
+    "heal": {
+      "name": "Heal",
+      "level": 5,
+      "mana_cost": 25,
+      "element": "light",
+      "description": "Restore a moderate amount of health"
+    },
+    "greater_heal": {
+      "name": "Greater Heal",
+      "level": 12,
+      "mana_cost": 45,
+      "element": "light",
+      "description": "Restore a large amount of health"
+    },
+    "regeneration": {
+      "name": "Regeneration",
+      "level": 8,
+      "mana_cost": 30,
+      "element": "nature",
+      "description": "Gradually restore health over several turns"
+    },
+    "magic_shield": {
+      "name": "Magic Shield",
+      "level": 3,
+      "mana_cost": 20,
+      "element": "arcane",
+      "description": "Create a barrier that absorbs damage"
+    },
+    "ice_barrier": {
+      "name": "Ice Barrier",
+      "level": 7,
+      "mana_cost": 28,
+      "element": "ice",
+      "description": "A barrier of ice that slows attackers"
+    },
+    "bless": {
+      "name": "Bless",
+      "level": 4,
+      "mana_cost": 22,
+      "element": "light",
+      "description": "Increase strength and defense temporarily"
+    },
+    "haste": {
+      "name": "Haste",
+      "level": 6,
+      "mana_cost": 26,
+      "element": "arcane",
+      "description": "Greatly increase agility and speed"
+    },
+    "clarity": {
+      "name": "Clarity",
+      "level": 5,
+      "mana_cost": 20,
+      "element": "arcane",
+      "description": "Enhance mental capabilities"
+    },
+    "cleanse": {
+      "name": "Cleanse",
+      "level": 4,
+      "mana_cost": 18,
+      "element": "light",
+      "description": "Remove negative status effects"
+    },
+    "dispel": {
+      "name": "Dispel",
+      "level": 9,
+      "mana_cost": 24,
+      "element": "arcane",
+      "description": "Remove magical effects from target"
+    },
+    "revitalize": {
+      "name": "Revitalize",
+      "level": 10,
+      "mana_cost": 15,
+      "element": "nature",
+      "description": "Restore mana and stamina"
+    }
+  },
+  "utility": {
+    "light": {
+      "name": "Light",
+      "level": 1,
+      "mana_cost": 5,
+      "element": "light",
+      "description": "Create magical light to illuminate dark areas"
+    },
+    "detect_magic": {
+      "name": "Detect Magic",
+      "level": 2,
+      "mana_cost": 10,
+      "element": "arcane",
+      "description": "Sense magical auras and enchantments nearby"
+    },
+    "detect_life": {
+      "name": "Detect Life",
+      "level": 3,
+      "mana_cost": 12,
+      "element": "nature",
+      "description": "Sense the presence of living creatures"
+    },
+    "telekinesis": {
+      "name": "Telekinesis",
+      "level": 5,
+      "mana_cost": 15,
+      "element": "arcane",
+      "description": "Move objects from a distance using mental power"
+    },
+    "levitate": {
+      "name": "Levitate",
+      "level": 6,
+      "mana_cost": 18,
+      "element": "arcane",
+      "description": "Float above the ground to avoid hazards"
+    },
+    "invisibility": {
+      "name": "Invisibility",
+      "level": 10,
+      "mana_cost": 35,
+      "element": "arcane",
+      "description": "Become invisible to avoid detection"
+    },
+    "translate": {
+      "name": "Translate",
+      "level": 7,
+      "mana_cost": 20,
+      "element": "arcane",
+      "description": "Understand and speak any language"
+    },
+    "scry": {
+      "name": "Scry",
+      "level": 13,
+      "mana_cost": 40,
+      "element": "arcane",
+      "description": "View distant locations through magical sight"
+    },
+    "identify": {
+      "name": "Identify",
+      "level": 8,
+      "mana_cost": 25,
+      "element": "arcane",
+      "description": "Reveal the magical properties of an item"
+    },
+    "water_walk": {
+      "name": "Water Walk",
+      "level": 5,
+      "mana_cost": 16,
+      "element": "nature",
+      "description": "Walk across water as if it were solid ground"
+    },
+    "water_breathing": {
+      "name": "Water Breathing",
+      "level": 6,
+      "mana_cost": 22,
+      "element": "nature",
+      "description": "Breathe underwater for extended periods"
+    },
+    "featherfall": {
+      "name": "Featherfall",
+      "level": 4,
+      "mana_cost": 14,
+      "element": "arcane",
+      "description": "Slow your fall to prevent damage"
+    }
+  },
+  "greater": {
+    "rift_opening": {
+      "name": "Rift Opening",
+      "level": 15,
+      "mana_cost": 50,
+      "element": "arcane",
+      "description": "Open a small rift between worlds",
+      "story_locked": true,
+      "unlock": "kelewan_training"
+    },
+    "rift_travel": {
+      "name": "Rift Travel",
+      "level": 18,
+      "mana_cost": 80,
+      "element": "arcane",
+      "description": "Travel instantly through the rift between worlds",
+      "story_locked": true,
+      "unlock": "mastery_of_rifts"
+    },
+    "rift_storm": {
+      "name": "Rift Storm",
+      "level": 20,
+      "mana_cost": 100,
+      "element": "arcane",
+      "description": "Summon a devastating storm of rift energy",
+      "story_locked": true,
+      "unlock": "milamber_power"
+    },
+    "time_stop": {
+      "name": "Time Stop",
+      "level": 25,
+      "mana_cost": 120,
+      "element": "arcane",
+      "description": "Briefly halt the flow of time itself",
+      "story_locked": true,
+      "unlock": "ultimate_power"
+    },
+    "mind_control": {
+      "name": "Mind Control",
+      "level": 16,
+      "mana_cost": 60,
+      "element": "arcane",
+      "description": "Dominate the mind of a target creature",
+      "story_locked": true,
+      "unlock": "advanced_training"
+    },
+    "polymorph": {
+      "name": "Polymorph",
+      "level": 17,
+      "mana_cost": 55,
+      "element": "arcane",
+      "description": "Transform a creature into a different form",
+      "story_locked": true,
+      "unlock": "transformation_magic"
+    },
+    "disintegrate": {
+      "name": "Disintegrate",
+      "level": 22,
+      "mana_cost": 90,
+      "element": "arcane",
+      "description": "Utterly destroy a target with raw magical power",
+      "story_locked": true,
+      "unlock": "ultimate_destruction"
+    },
+    "wish": {
+      "name": "Wish",
+      "level": 30,
+      "mana_cost": 200,
+      "element": "arcane",
+      "description": "Alter reality itself with a single wish",
+      "story_locked": true,
+      "unlock": "godlike_power"
+    },
+    "dragon_breath": {
+      "name": "Dragon Breath",
+      "level": 20,
+      "mana_cost": 70,
+      "element": "fire",
+      "description": "Channel the fire breath of ancient dragons",
+      "story_locked": true,
+      "unlock": "valheru_armor",
+      "character": "tomas"
+    },
+    "void_magic": {
+      "name": "Void Magic",
+      "level": 21,
+      "mana_cost": 85,
+      "element": "dark",
+      "description": "Channel the destructive power of the void itself",
+      "story_locked": true,
+      "unlock": "void_knowledge"
+    },
+    "empower_rift": {
+      "name": "Empower: Rift",
+      "level": 19,
+      "mana_cost": 65,
+      "element": "arcane",
+      "description": "Channel rift energy to enhance all abilities",
+      "story_locked": true,
+      "unlock": "rift_mastery"
+    }
+  }
+}
