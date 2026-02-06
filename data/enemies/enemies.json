@@ -1,0 +1,140 @@
+{
+  "goblin": {
+    "name": "Goblin",
+    "description": "A small, green-skinned creature with sharp teeth and beady eyes",
+    "level": 1,
+    "attributes": {
+      "strength": 8,
+      "constitution": 7,
+      "agility": 12,
+      "intelligence": 6,
+      "willpower": 5,
+      "charisma": 4
+    },
+    "base_damage": 5,
+    "xp_reward": 50,
+    "gold_reward": 10,
+    "abilities": ["Quick Strike"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 2
+    }
+  },
+  "orc_warrior": {
+    "name": "Orc Warrior",
+    "description": "A brutish orc wielding a crude axe and wearing patchwork armor",
+    "level": 3,
+    "attributes": {
+      "strength": 14,
+      "constitution": 12,
+      "agility": 8,
+      "intelligence": 6,
+      "willpower": 7,
+      "charisma": 5
+    },
+    "base_damage": 10,
+    "xp_reward": 150,
+    "gold_reward": 30,
+    "abilities": ["Brutal Strike", "War Cry"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 3
+    }
+  },
+  "troll": {
+    "name": "Troll",
+    "description": "A massive, lumbering creature with thick hide and regenerative abilities",
+    "level": 5,
+    "attributes": {
+      "strength": 16,
+      "constitution": 18,
+      "agility": 6,
+      "intelligence": 4,
+      "willpower": 8,
+      "charisma": 3
+    },
+    "base_damage": 15,
+    "xp_reward": 250,
+    "gold_reward": 50,
+    "abilities": ["Regeneration", "Smash"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 4
+    }
+  },
+  "bandit": {
+    "name": "Bandit",
+    "description": "A human outlaw skilled with blade and bow",
+    "level": 2,
+    "attributes": {
+      "strength": 10,
+      "constitution": 10,
+      "agility": 13,
+      "intelligence": 9,
+      "willpower": 8,
+      "charisma": 7
+    },
+    "base_damage": 8,
+    "xp_reward": 100,
+    "gold_reward": 25,
+    "abilities": ["Quick Strike"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 2
+    }
+  },
+  "wolf": {
+    "name": "Wolf",
+    "description": "A fierce grey wolf with sharp fangs and keen senses",
+    "level": 2,
+    "attributes": {
+      "strength": 11,
+      "constitution": 10,
+      "agility": 14,
+      "intelligence": 5,
+      "willpower": 7,
+      "charisma": 4
+    },
+    "base_damage": 7,
+    "xp_reward": 75,
+    "gold_reward": 5,
+    "abilities": ["Pack Tactics"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 2
+    }
+  },
+  "skeleton": {
+    "name": "Skeleton Warrior",
+    "description": "Animated bones wielding rusty weapons, mindlessly aggressive",
+    "level": 3,
+    "attributes": {
+      "strength": 12,
+      "constitution": 8,
+      "agility": 10,
+      "intelligence": 3,
+      "willpower": 5,
+      "charisma": 2
+    },
+    "base_damage": 9,
+    "xp_reward": 125,
+    "gold_reward": 15,
+    "abilities": ["Undead Resilience"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 2
+    }
+  }
+}
