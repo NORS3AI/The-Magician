@@ -53,13 +53,29 @@ Project context and instructions for Claude Code sessions.
   - [x] Ability unlocks per level (Tomas & Pug paths)
   - [x] PlayerCharacter class with full state management
   - [x] Damage/defense/spell power calculations
+- [x] **Phase 4: Combat System (COMPLETE)**
+  - [x] Damage calculation system (physical & magical)
+  - [x] Hit chance and critical hit mechanics
+  - [x] Status effects system (bleeding, burning, poison, stun, buffs/debuffs)
+  - [x] Effect manager with tick-based damage
+  - [x] Combat actions for warriors (light/heavy attacks, power strike, shield bash)
+  - [x] Combat actions for mages (fireballs, lightning, heal, shield)
+  - [x] Action registry with stamina/mana costs
+  - [x] Enemy class with AI behavior
+  - [x] Predefined enemy templates (goblin, orc, troll, dark mage, dragon)
+  - [x] Turn-based battle manager
+  - [x] Battle loop with player/enemy turns
+  - [x] Victory/defeat/flee mechanics
+  - [x] XP and gold rewards
+  - [x] Integration with game loop
+  - [x] Enemy data files (common enemies and bosses)
 - [x] Deployment configuration (Render, Railway, Fly.io)
 
 ### In Progress
 - None
 
 ### Not Started
-- Phases 4-10 (see todo.md for full breakdown)
+- Phases 5-10 (see todo.md for full breakdown)
 
 ## Key Files
 
@@ -83,12 +99,19 @@ src/character/              - Character system (Phase 3)
   ├── player.py             - PlayerCharacter class
   ├── stats.py              - Attributes and stat calculations
   └── progression.py        - XP and leveling system
+src/combat/                 - Combat system (Phase 4)
+  ├── damage.py             - Damage calculations (physical/magical)
+  ├── effects.py            - Status effects and effect manager
+  ├── actions.py            - Combat actions (warrior/mage)
+  ├── enemy.py              - Enemy classes and AI
+  └── battle.py             - Turn-based battle manager
 src/data/                   - Data management
   ├── loader.py             - JSON/YAML loading with caching
   └── validator.py          - Schema validation
 src/config/settings.py      - Config loader
 src/utils/validation.py     - Input validation
 data/characters/            - Tomas and Pug base stats
+data/enemies/               - Enemy templates (common and bosses)
 data/users/                 - User account storage
 templates/                  - HTML templates for web UI
 tests/test_auth.py          - Authentication unit tests
@@ -117,11 +140,11 @@ Currently on: `claude/update-play-link-gnIsm`
 ## Next Steps
 
 1. **For iPad access:** Deploy to Render.com (see DEPLOYMENT.md)
-2. **Phase 4:** Implement combat system (turn-based battles)
-3. **Phase 5:** Implement magic system (spells for Pug path)
-4. **Phase 6:** Implement inventory system (equipment, items)
-5. **Phase 7:** Implement survival system (hunger, thirst, fatigue)
-6. **Phase 8:** Start story content for Chapter 1
+2. **Phase 5:** Implement magic system (advanced spells for Pug path)
+3. **Phase 6:** Implement inventory system (equipment, items, weapons)
+4. **Phase 7:** Implement survival system (hunger, thirst, fatigue)
+5. **Phase 8:** Start story content for Chapter 1
+6. **Future phases:** See todo.md for Phases 8-10
 
 ## User Preferences
 

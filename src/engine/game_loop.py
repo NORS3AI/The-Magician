@@ -12,6 +12,7 @@ from ..config.settings import Settings
 from ..data import DataLoader
 from ..auth import AccountManager
 from ..character import PlayerCharacter, CoreAttributes
+from ..combat import Battle, BattleResult, create_goblin, create_orc
 
 logger = logging.getLogger(__name__)
 
@@ -40,6 +41,7 @@ class GameLoop:
         self.running = False
         self.player: Optional[PlayerCharacter] = None
         self.current_user: Optional[str] = None
+        self.current_battle: Optional[Battle] = None
 
     def run(self):
         """Start the main game loop."""
@@ -64,6 +66,8 @@ class GameLoop:
                     self._handle_character_select()
                 elif state == GameState.PLAYING:
                     self._handle_playing()
+                elif state == GameState.COMBAT:
+                    self._handle_combat()
                 elif state == GameState.INVENTORY:
                     self._handle_inventory()
                 elif state == GameState.STATS:
@@ -307,7 +311,7 @@ class GameLoop:
         elif action == "use":
             self.output.print_info("Use command not yet implemented")
         elif action == "attack":
-            self.output.print_info("Combat not yet implemented")
+            self._start_combat()
         elif action == "talk":
             self.output.print_info("Dialogue not yet implemented")
 
@@ -431,6 +435,193 @@ class GameLoop:
 
         self.output.pause()
         self.state_machine.go_back()
+
+    def _start_combat(self):
+        """Initiate a combat encounter."""
+        if not self.player:
+            return
+
+        # For testing, create a goblin encounter
+        # TODO: Make this dynamic based on location/story
+        enemies = [create_goblin(level=self.player.level)]
+
+        self.current_battle = Battle(self.player, enemies)
+        battle_start = self.current_battle.start()
+
+        self.output.clear()
+        self.output.print_section("COMBAT!")
+        self.output.print_error(battle_start['message'])
+        self.output.pause()
+
+        self.state_machine.transition_to(GameState.COMBAT)
+
+    def _handle_combat(self):
+        """Handle combat state."""
+        if not self.current_battle or not self.player:
+            self.state_machine.transition_to(GameState.PLAYING)
+            return
+
+        # Check if battle is over
+        if self.current_battle.result != BattleResult.ONGOING:
+            self._end_combat()
+            return
+
+        # Show battle state
+        self.output.clear()
+        self.output.print_section("COMBAT - Turn {}".format(self.current_battle.turn_number + 1))
+
+        # Show player status
+        player_health = f"{self.player.derived_stats.current_health}/{self.player.derived_stats.max_health}"
+        player_mana = f"{self.player.derived_stats.current_mana}/{self.player.derived_stats.max_mana}"
+        player_stamina = f"{self.player.derived_stats.current_stamina}/{self.player.derived_stats.max_stamina}"
+
+        self.output.print_colored(f"Your Status: HP {player_health} | MP {player_mana} | ST {player_stamina}", Color.GREEN)
+
+        # Show enemies
+        print("\nEnemies:")
+        for i, enemy in enumerate(self.current_battle.enemies):
+            if enemy.is_alive():
+                enemy_health = f"{enemy.derived_stats.current_health}/{enemy.derived_stats.max_health}"
+                self.output.print_colored(
+                    f"  {i+1}. {enemy.name} - HP {enemy_health}",
+                    Color.RED
+                )
+
+        # Show available actions
+        print("\nActions:")
+        print("  attack <target> - Attack enemy (e.g., 'attack 1')")
+        print("  defend - Take defensive stance")
+        print("  flee - Attempt to flee")
+        print("  inventory - View inventory")
+        print()
+
+        # Get player action
+        user_input = self.output.prompt("> ")
+        command = self.input_handler.parse(user_input)
+
+        if not command:
+            return
+
+        # Process combat command
+        if command.action == "attack":
+            target_index = 0
+            if command.targets:
+                try:
+                    target_index = int(command.targets[0]) - 1
+                except ValueError:
+                    self.output.print_error("Invalid target number")
+                    self.output.pause()
+                    return
+
+            result = self.current_battle.player_turn("Attack", target_index)
+            self._show_combat_result(result)
+
+            # Enemy turns
+            if self.current_battle.result == BattleResult.ONGOING:
+                self._execute_enemy_turns()
+
+            self.current_battle.next_turn()
+
+        elif command.action == "defend":
+            result = self.current_battle.player_turn("Defend")
+            self._show_combat_result(result)
+
+            # Enemy turns
+            if self.current_battle.result == BattleResult.ONGOING:
+                self._execute_enemy_turns()
+
+            self.current_battle.next_turn()
+
+        elif command.action == "flee":
+            result = self.current_battle.attempt_flee()
+            self.output.print_info(result['message'])
+
+            if result.get('success'):
+                self.output.pause()
+                self._end_combat()
+            else:
+                # Enemy gets free turn
+                self._execute_enemy_turns()
+                self.current_battle.next_turn()
+                self.output.pause()
+
+        elif command.action == "inventory":
+            self.state_machine.transition_to(GameState.INVENTORY)
+
+        else:
+            self.output.print_error("Unknown combat command")
+            self.output.pause()
+
+    def _show_combat_result(self, result: Dict[str, Any]):
+        """Display combat action result."""
+        if 'error' in result:
+            self.output.print_error(result['error'])
+        elif 'message' in result:
+            self.output.print_info(result['message'])
+
+            if result.get('critical'):
+                self.output.print_colored("CRITICAL HIT!", Color.BRIGHT_YELLOW, Style.BOLD)
+
+        self.output.pause()
+
+    def _execute_enemy_turns(self):
+        """Execute all enemy turns."""
+        for i, enemy in enumerate(self.current_battle.enemies):
+            if not enemy.is_alive():
+                continue
+
+            result = self.current_battle.enemy_turn(i)
+
+            if result.get('skipped'):
+                continue
+
+            self.output.print_warning(result.get('message', 'Enemy acts!'))
+
+            if result.get('critical'):
+                self.output.print_colored("Enemy CRITICAL HIT!", Color.BRIGHT_RED, Style.BOLD)
+
+            self.output.pause()
+
+            # Check if player died
+            if self.player.derived_stats.current_health <= 0:
+                self.current_battle.result = BattleResult.DEFEAT
+                break
+
+    def _end_combat(self):
+        """Handle end of combat."""
+        if not self.current_battle:
+            return
+
+        self.output.clear()
+        self.output.print_section("COMBAT ENDED")
+
+        if self.current_battle.result == BattleResult.VICTORY:
+            rewards = self.current_battle.get_battle_state().get('rewards', {})
+            self.output.print_success("Victory!")
+
+            if 'rewards' in self.current_battle.__dict__ or hasattr(self.current_battle, '_calculate_rewards'):
+                rewards = self.current_battle._calculate_rewards()
+                xp_gained = rewards.get('xp', 0)
+                gold_gained = rewards.get('gold', 0)
+
+                self.output.print_info(f"You gained {xp_gained} XP and {gold_gained} gold!")
+
+                # Award XP
+                level_up_info = self.player.gain_xp(xp_gained)
+                if level_up_info:
+                    self.output.print_success(f"LEVEL UP! You are now level {level_up_info['new_level']}!")
+                    self.output.print_info(f"You gained {level_up_info['stat_points_gained']} stat points!")
+
+        elif self.current_battle.result == BattleResult.DEFEAT:
+            self.output.print_error("You have been defeated!")
+            # TODO: Handle death/respawn
+
+        elif self.current_battle.result == BattleResult.FLED:
+            self.output.print_warning("You fled from combat.")
+
+        self.output.pause()
+        self.current_battle = None
+        self.state_machine.transition_to(GameState.PLAYING)
 
     def _handle_pause(self):
         """Handle pause menu."""

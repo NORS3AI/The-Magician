@@ -1,0 +1,128 @@
+{
+  "dark_mage": {
+    "name": "Dark Mage",
+    "description": "A robed spellcaster wielding forbidden magic and dark power",
+    "level": 7,
+    "attributes": {
+      "strength": 8,
+      "constitution": 10,
+      "agility": 10,
+      "intelligence": 16,
+      "willpower": 14,
+      "charisma": 8
+    },
+    "base_damage": 8,
+    "xp_reward": 500,
+    "gold_reward": 100,
+    "abilities": ["Shadow Bolt", "Dark Shield", "Life Drain"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "intelligence_per_level": 1,
+      "willpower_per_level": 1,
+      "damage_per_level": 2
+    },
+    "boss": true
+  },
+  "dragon": {
+    "name": "Ancient Dragon",
+    "description": "A massive wyrm with scales like iron and breath that burns like the sun",
+    "level": 15,
+    "attributes": {
+      "strength": 22,
+      "constitution": 24,
+      "agility": 12,
+      "intelligence": 18,
+      "willpower": 20,
+      "charisma": 16
+    },
+    "base_damage": 30,
+    "xp_reward": 7500,
+    "gold_reward": 1500,
+    "abilities": ["Fire Breath", "Tail Sweep", "Dragon Fear", "Ancient Magic"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "intelligence_per_level": 1,
+      "willpower_per_level": 1,
+      "damage_per_level": 5
+    },
+    "boss": true
+  },
+  "tsurani_warrior": {
+    "name": "Tsurani Warrior",
+    "description": "An elite soldier from Kelewan, disciplined and deadly",
+    "level": 6,
+    "attributes": {
+      "strength": 13,
+      "constitution": 12,
+      "agility": 13,
+      "intelligence": 10,
+      "willpower": 11,
+      "charisma": 9
+    },
+    "base_damage": 12,
+    "xp_reward": 350,
+    "gold_reward": 75,
+    "abilities": ["Tsurani Steel", "Honor Strike"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 3
+    },
+    "boss": false
+  },
+  "black_slayer": {
+    "name": "Black Slayer",
+    "description": "A legendary Tsurani warrior in black armor, feared across two worlds",
+    "level": 12,
+    "attributes": {
+      "strength": 18,
+      "constitution": 16,
+      "agility": 15,
+      "intelligence": 12,
+      "willpower": 14,
+      "charisma": 10
+    },
+    "base_damage": 25,
+    "xp_reward": 2500,
+    "gold_reward": 500,
+    "abilities": ["Whirlwind Strike", "Iron Will", "Perfect Defense", "Death Blow"],
+    "level_scaling": {
+      "strength_per_level": 1,
+      "constitution_per_level": 1,
+      "agility_per_level": 1,
+      "damage_per_level": 4
+    },
+    "boss": true
+  },
+  "valheru_shade": {
+    "name": "Valheru Shade",
+    "description": "The spectral remnant of an ancient Dragon Lord, radiating terrible power",
+    "level": 20,
+    "attributes": {
+      "strength": 25,
+      "constitution": 22,
+      "agility": 18,
+      "intelligence": 22,
+      "willpower": 24,
+      "charisma": 20
+    },
+    "base_damage": 40,
+    "xp_reward": 15000,
+    "gold_reward": 3000,
+    "abilities": ["Dragon Magic", "Void Strike", "Reality Warp", "Time Stop", "Essence Drain"],
+    "level_scaling": {
+      "strength_per_level": 2,
+      "constitution_per_level": 2,
+      "agility_per_level": 1,
+      "intelligence_per_level": 2,
+      "willpower_per_level": 2,
+      "damage_per_level": 6
+    },
+    "boss": true
+  }
+}
