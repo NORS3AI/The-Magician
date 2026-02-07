@@ -7,8 +7,16 @@ Project context and instructions for Claude Code sessions.
 **The-Magician** is a text adventure RPG based on Raymond E. Feist's *Magician: Apprentice* and *Magician: Master* from the Riftwar Saga.
 
 - **Genre:** Text Adventure RPG with survival elements
-- **Platform:** Python (CLI + Flask web interface)
+- **Platform:** Vite + Tailwind CSS (static site for GitHub Pages)
 - **Two playable paths:** Tomas (Warrior) or Pug (Mage)
+
+## Tech Stack
+
+- **Vite** - Build tool and dev server
+- **Tailwind CSS v4** - Styling
+- **Vanilla JavaScript** - Game logic (no framework)
+- **GitHub Pages** - Hosting
+- **localStorage** - Game saves
 
 ## Current Status
 
@@ -16,48 +24,56 @@ Project context and instructions for Claude Code sessions.
 - [x] README.md - Base project description
 - [x] features.md - Complete feature documentation
 - [x] todo.md - All 10 development phases with detailed tasks
-- [x] Project structure created (src/, data/, tests/, config/)
-- [x] main.py - CLI entry point (working)
-- [x] app.py - Flask web interface (working)
-- [x] Basic game loop with state machine
+- [x] Vite + Tailwind project setup
+- [x] index.html - Main entry point
+- [x] src/main.js - Complete game logic with state machine
+- [x] src/style.css - Tailwind styles with custom components
+- [x] GitHub Actions workflow for deployment
 - [x] Character selection (Tomas/Pug)
-- [x] HTML templates with dark theme
-- [x] Configuration system (YAML)
-- [x] Character base data (tomas_base.json, pug_base.json)
+- [x] Basic commands (look, inventory, stats, help)
+- [x] localStorage save/load system
+- [x] Dark theme responsive UI
 
 ### In Progress
-- Phase 1: Authentication system (skeleton exists, needs implementation)
-- Web interface needs public access solution for iPad testing
+- Deploying to GitHub Pages
 
 ### Not Started
-- Phases 2-10 (see todo.md for full breakdown)
+- Phases 2-10 from todo.md (see for full breakdown)
+- Story content for chapters
+- Combat system
+- More game commands
 
 ## Key Files
 
 ```
-main.py          - CLI game entry point
-app.py           - Flask web server (port 5000)
-config/game.yaml - Game configuration
-src/engine/game_loop.py - Core game loop
-src/config/settings.py  - Config loader
-data/characters/ - Tomas and Pug base stats
-templates/       - HTML templates for web UI
+index.html           - Main HTML entry point
+src/main.js          - Game logic (state machine, commands, save/load)
+src/style.css        - Tailwind CSS with custom components
+vite.config.js       - Vite config (base path for GitHub Pages)
+postcss.config.js    - PostCSS config for Tailwind
+tailwind.config.js   - Tailwind theme customization
+.github/workflows/deploy.yml - GitHub Pages deployment
 ```
 
 ## Running the Game
 
-### CLI Mode
+### Development
 ```bash
-source venv/bin/activate
-python main.py
+npm install
+npm run dev
+# Opens at http://localhost:5173
 ```
 
-### Web Mode
+### Build for Production
 ```bash
-source venv/bin/activate
-python app.py
-# Opens at http://localhost:5000
+npm run build
+npm run preview  # Preview the build locally
 ```
+
+### Deploy
+Push to main/master branch - GitHub Actions will build and deploy automatically.
+
+**Live URL:** https://NORS3AI.github.io/The-Magician/
 
 ## Development Branch
 
@@ -65,20 +81,25 @@ Currently on: `claude/review-readme-B7Lvc`
 
 ## Next Steps
 
-1. **For iPad access:** Set up ngrok or deploy to cloud hosting
-2. **Phase 1 completion:** Implement actual authentication (bcrypt, tokens, email)
-3. **Phase 2:** Expand game engine with more commands
-4. **Phase 8:** Start story content for Chapter 1
+1. **Merge to main** - Trigger GitHub Pages deployment
+2. **Enable GitHub Pages** - Settings > Pages > Source: GitHub Actions
+3. **Test on iPad** - Visit the live URL
+4. **Expand game** - Add more commands, story content, combat
 
 ## User Preferences
 
-- User is on iPad, needs web interface for testing
-- Python is the chosen language
+- User is on iPad, needs web access (GitHub Pages solves this)
 - Dark theme UI preferred
 - Game should stay faithful to Feist's world
 
+## Legacy Python Files
+
+The Python files (main.py, app.py, src/, etc.) are from the original implementation.
+They can be removed or kept for reference. The game now runs entirely in the browser.
+
 ## Notes
 
-- venv is set up with all dependencies installed
-- Flask server runs on 0.0.0.0:5000 (accessible on local network)
-- Tests pass: `pytest tests/ -v`
+- Build output goes to `dist/` folder
+- Game state saved to localStorage
+- Tailwind v4 uses `@tailwindcss/postcss` plugin
+- Base path set to `/The-Magician/` for GitHub Pages
