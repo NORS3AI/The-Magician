@@ -4,21 +4,28 @@ Complete feature documentation for The-Magician text adventure RPG.
 
 ## Play Now
 
+**[Launch Game](https://NORS3AI.github.io/The-Magician/)** - Play instantly in your browser!
+
+### Run Locally
 ```bash
-# Clone the repository
 git clone https://github.com/NORS3AI/The-Magician.git
 cd The-Magician
-
-# Set up virtual environment
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the game
-python main.py
+npm install
+npm run dev
 ```
+
+---
+
+## Technology
+
+| Component | Technology |
+|-----------|------------|
+| Build Tool | Vite |
+| Styling | Tailwind CSS v4 |
+| Language | TypeScript |
+| Hosting | GitHub Pages |
+| Storage | localStorage / IndexedDB |
+| State | Custom state machine |
 
 ---
 
@@ -31,14 +38,16 @@ Players choose one of two protagonists at the start of the game. Each path offer
 - Focus on physical combat and martial prowess
 - Action-based abilities (melee attacks, defensive maneuvers)
 - Equipment-focused progression
-- Storyline follows Tomas's transformation and battles
+- Storyline follows Tomas's transformation and the power of the Valheru
 
 ### Pug - The Mage Path
 
 - Focus on magical study and spellcasting
 - Spell-based abilities (offensive, defensive, utility magic)
 - Knowledge and mana-focused progression
-- Storyline follows Pug's journey from apprentice to master
+- Storyline follows Pug's journey from apprentice to master magician
+
+---
 
 ## RPG Stats
 
@@ -46,126 +55,169 @@ Characters have attributes that affect gameplay outcomes.
 
 ### Core Attributes
 
-- **Strength** - Physical power, melee damage, carrying capacity
-- **Constitution** - Health pool, resistance to damage and fatigue
-- **Agility** - Speed, dodge chance, initiative in combat
-- **Intelligence** - Spell power, learning rate, puzzle-solving
-- **Willpower** - Mana pool, mental resistance, concentration
-- **Charisma** - NPC interactions, persuasion, leadership
+| Stat | Description | Primary Use |
+|------|-------------|-------------|
+| **Strength** | Physical power | Melee damage, carry capacity |
+| **Constitution** | Endurance | Health pool, fatigue resistance |
+| **Agility** | Speed & reflexes | Dodge, initiative, ranged attacks |
+| **Intelligence** | Mental acuity | Spell power, puzzle-solving |
+| **Willpower** | Mental fortitude | Mana pool, resist effects |
+| **Charisma** | Social presence | NPC relations, persuasion |
 
 ### Derived Stats
 
-- **Health (HP)** - Based on Constitution; reaching zero means death or capture
-- **Mana (MP)** - Based on Willpower; powers spells and magical abilities
-- **Stamina** - Based on Constitution and Agility; affects sustained actions
+- **Health (HP)** - Constitution × 10; reaching zero triggers defeat
+- **Mana (MP)** - Willpower × 10 (Mage) or × 2 (Warrior)
+- **Stamina** - Constitution + Agility; affects sustained actions
+- **Initiative** - Agility-based; determines combat turn order
+
+---
 
 ## Combat System
 
-Turn-based combat with strategic choices.
+Turn-based tactical combat with strategic depth.
+
+### Combat UI Features
+
+- Animated health/mana bars
+- Action button panel with cooldown indicators
+- Combat log with scrollable history
+- Enemy status display
+- Visual effects for hits, misses, and criticals
 
 ### Action Abilities (Warrior Focus)
 
-- Basic attacks (light, heavy, precise strikes)
-- Defensive stances (block, parry, dodge)
-- Special techniques (unlocked through progression)
-- Weapon-specific moves
+| Action | Type | Effect |
+|--------|------|--------|
+| Strike | Attack | Standard damage |
+| Power Attack | Attack | +50% damage, -20% accuracy |
+| Defensive Stance | Defense | +30% block, reduced damage |
+| Parry | Defense | Counter-attack on block |
+| Charge | Special | Gap close + stun |
 
 ### Spell Abilities (Mage Focus)
 
-- Offensive spells (damage, status effects)
-- Defensive spells (shields, wards, healing)
-- Utility spells (light, detection, telekinesis)
-- Greater magic (unlocked through story progression)
+| Spell | Type | Cost | Effect |
+|-------|------|------|--------|
+| Fire Bolt | Offensive | 10 MP | Direct damage |
+| Shield | Defensive | 15 MP | Absorb damage |
+| Heal | Utility | 20 MP | Restore HP |
+| Detect | Utility | 5 MP | Reveal hidden |
+| Greater Magic | Story | Variable | Unlocked via progression |
 
 ### Combat Flow
 
-1. Initiative determines turn order
-2. Choose action: Attack, Defend, Use Item, Cast Spell, Flee
-3. Actions resolve based on stats and dice rolls
-4. Status effects and conditions apply
-5. Victory or defeat triggers story consequences
+1. **Initiative** - Agility determines turn order
+2. **Action Selection** - Attack, Defend, Cast, Item, Flee
+3. **Resolution** - Dice rolls modified by stats
+4. **Effects** - Status conditions apply
+5. **Outcome** - Victory rewards / defeat consequences
 
-## Health System
-
-- Health depletes from combat damage, environmental hazards, and survival failures
-- Healing through rest, consumables, and (for Pug) healing magic
-- Critical health triggers warnings and potential story consequences
-- Death may result in game over or capture scenarios depending on story context
-
-## Survival Aspects
-
-The world presents challenges beyond combat.
-
-### Resource Management
-
-- **Food & Water** - Required for long journeys; starvation affects stats
-- **Rest** - Fatigue accumulates; rest restores stamina and health
-- **Supplies** - Torches, rope, tools needed for exploration
-
-### Environmental Challenges
-
-- Weather conditions (storms, cold, heat)
-- Terrain hazards (cliffs, rivers, hostile environments)
-- Time-sensitive situations
+---
 
 ## Inventory System
 
 ### Item Categories
 
-- **Weapons** - Swords, daggers, staves, bows
-- **Armor** - Protection gear affecting defense and mobility
-- **Consumables** - Food, potions, scrolls
-- **Key Items** - Story-critical objects
-- **Tools** - Utility items for survival and exploration
-- **Valuables** - Currency and trade goods
+| Category | Examples | Features |
+|----------|----------|----------|
+| **Weapons** | Swords, staves, bows | Equippable, stat bonuses |
+| **Armor** | Helmets, robes, boots | Defense, mobility effects |
+| **Consumables** | Potions, food, scrolls | Single-use effects |
+| **Key Items** | Quest objects | Story triggers |
+| **Materials** | Crafting components | Combine for items |
 
-### Inventory Management
+### Inventory UI
 
-- Weight/capacity limits based on Strength
-- Equipment slots (weapon, armor, accessories)
-- Quick-use slots for consumables in combat
+- Grid-based inventory with drag-and-drop
+- Equipment slots with paper-doll display
+- Quick-access bar for combat items
+- Weight/capacity indicator
+- Item comparison tooltips
 
-## Story and Choices
+---
+
+## Story & Narrative
 
 ### Narrative Structure
 
-- Story chapters following the events of the books
-- Branching dialogue with NPCs
-- Player choices affect relationships and minor story variations
-- Major plot points remain faithful to source material
+- **Chapters** following the events of the books
+- **Branching dialogue** with meaningful choices
+- **Relationship tracking** with NPCs
+- **Consequence system** - choices affect future events
 
-### Consequence System
+### Locations
 
-- Choices remembered throughout the game
-- NPC relationships tracked (ally, neutral, hostile)
-- Some paths open or close based on previous decisions
+| Area | Description |
+|------|-------------|
+| Castle Crydee | Starting location, training grounds |
+| Sorcerer's Isle | Kulgan's domain |
+| Elvandar | Elven kingdom in the forest |
+| Kelewan | The Tsurani homeworld |
+| The Rift | Gateway between worlds |
 
-## Progression
+---
 
-### Experience and Leveling
+## User Interface
 
-- Gain experience from combat, quests, and discoveries
-- Level up to improve stats and unlock abilities
-- Skill points for customizing playstyle
+### Design Principles
 
-### Story Progression
+- **Dark theme** - Immersive fantasy atmosphere
+- **Responsive** - Works on desktop, tablet, and mobile
+- **Accessible** - Keyboard navigation, screen reader support
+- **Animated** - Smooth transitions and micro-interactions
 
-- Chapter-based advancement
-- Key story events unlock new abilities and areas
-- Character growth mirrors their development in the novels
+### UI Components
 
-## Technical Design
+- Glassmorphism cards with backdrop blur
+- Gradient backgrounds (midnight → ocean)
+- Crimson accent color for actions
+- Custom scrollbars matching theme
+- Loading states and skeleton screens
 
-### Interface
+---
 
-- Command-line text interface
-- Clear prompts for player input
-- Formatted text for readability (descriptions, dialogue, combat)
-- Save/load system for progress
+## Save System
 
-### Architecture (Planned)
+### Features
 
-- Python 3.x
-- Modular design (story, combat, inventory, stats as separate systems)
-- Data-driven content (story text, items, enemies in external files)
-- State management for game saves
+- **Auto-save** - Progress saved automatically
+- **Multiple slots** - Up to 5 save games
+- **Cloud sync** - Optional account-based saves
+- **Export/Import** - Download save files
+
+### Data Stored
+
+- Character stats and level
+- Inventory contents
+- Story progress flags
+- NPC relationship values
+- Playtime statistics
+
+---
+
+## Development Phases
+
+| Phase | Name | Features |
+|-------|------|----------|
+| 1 | Core UI & Auth | Login, register, JWT tokens, forms |
+| 2 | Character System | Stats, leveling, creation wizard |
+| 3 | Game Engine | Commands, state machine, locations |
+| 4 | Combat System | Turn-based battles, enemy AI |
+| 5 | Magic System | Spells, mana, effects |
+| 6 | Inventory | Items, equipment, drag-drop |
+| 7 | Story Engine | Dialogue, quests, branching |
+| 8 | Save/Load | Cloud sync, multiple slots |
+| 9 | Polish | Animations, sounds, particles |
+| 10 | Deploy | PWA, offline, optimization |
+
+---
+
+## Accessibility
+
+- Keyboard navigation throughout
+- High contrast mode option
+- Adjustable text size
+- Screen reader compatible
+- Reduced motion option
+- Color-blind friendly palette
